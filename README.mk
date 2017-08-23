@@ -3,7 +3,7 @@ Run ./install.sh for setup
 you may need to configure the location of iptables and ip6tables in fw-lib.sh 
 if you are not using debian stretch with bash
 
-place your firewall scripts in /etc/fw_rules.d
+place your firewall scripts with executeable permissions in /etc/fw_rules.d
 
 Example: 
 
