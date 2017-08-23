@@ -1,0 +1,20 @@
+[Unit]
+Description=Conesphere Firewall Service
+ 
+# Start before Network Interfaces coming up
+Before=network-pre.target
+Wants=network-pre.target
+After=local-fs.target
+ 
+# Do not start after basic.target!
+DefaultDependencies=no
+ 
+[Service]
+ExecStart=/usr/sbin/fw-load.sh
+ExecStop=/usr/sbin/fw-load.sh stop
+ExecReload=/usr/sbin/fw-load.sh
+ 
+# Just Execute the shell script
+Type=oneshot
+RemainAfterExit=yes
+
