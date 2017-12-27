@@ -104,5 +104,5 @@ if [[ "${FLAG_PATH_CREATED}" = "true" ]]
 then
 	# we may have to clean up our mess
 	/bin/rm -f "${FLAG_PATH}/"*.run
-	/bin/rmdir "${FLAG_PATH}"
+	/bin/rmdir "${FLAG_PATH}" || echo "Warning: Supressing Errorcode $?"
 fi
