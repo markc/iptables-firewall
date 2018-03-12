@@ -110,6 +110,8 @@ check_ebt() {
 	if [[ "${TEST_COMMAND}" == "-I" ]]
 	then
 		# this is going to be more complec because ebtables does not provide -C checks
+		# basicly it ads a custom chain which then adds the command to recreate what 
+		# it would look like in ebtables. Then it greps for that command
 		ebtables "${TBL_PARM}" "${TBL}" -N GET_EBTABLES_FORMAT
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-F" GET_EBTABLES_FORMAT
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBTABLES_FORMAT "${@}"
