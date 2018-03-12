@@ -1,8 +1,6 @@
 #!/bin/bash
 PREFIX=${PREFIX:-}
 INSTDIR=${INSTDIR:-/usr/local}
-echo $PREFIX$INSTDIR
-exit 
 install -d ${PREFIX}${INSTDIR}/share
 install -d ${PREFIX}${INSTDIR}/sbin
 install  -m "0755" -o root -g root firewall.service ${PREFIX}/etc/systemd/system/firewall.service
