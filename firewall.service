@@ -6,9 +6,9 @@ After=systemd-remount-fs.service local-fs.target basic.target
 Before=network-pre.target network.target network-online.target networking.service
  
 [Service]
-ExecStart=/usr/sbin/fw-load.sh
-ExecStop=/usr/sbin/fw-load.sh stop
-ExecReload=/usr/sbin/fw-load.sh
+ExecStart=/usr/local/sbin/fw-load.sh
+ExecStop=/usr/local/sbin/fw-load.sh stop
+ExecReload=/usr/local/sbin/fw-load.sh
  
 # Just Execute the shell script
 Type=oneshot
