@@ -117,6 +117,10 @@ check_ebt() {
 		-D)
 			TEST_COMMAND="-I"
 		;;
+		-F)
+			return 0
+			# we can always flush
+		;;
 		*)
 			TEST_COMMAND="-I"
 			INVERT_RET="true"
