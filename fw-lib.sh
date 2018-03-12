@@ -5,8 +5,23 @@ export FW_CFG_PATH="/etc/fw_rules.d"
 export IPTABLES="/sbin/iptables"
 export IP6TABLES="/sbin/ip6tables"
 export EBTABLES="/sbin/ebtables"
+export FW_SCRIPT="${1}"
 export FLAG_PATH="${2}"
 export FLAG_PATH_CREATED="false"
+
+if [[ ! -e "${FW_SCRIPT}" ]]
+then
+	cat << EOF
+This is a wrapper around *tables scripts (iptables, ip6tables, ebtables)
+It can be used as a shell scripts by "#!/usr/bin/env fw_lib.sh" or 
+It needs at least one parameter, which needs to be an existing file,
+to work, which does not exists. 
+
+Have a look at /etc/fw_rules.d and the iptables-firewall framework for 
+more info
+EOF
+	exit 1
+fi
 
 if [[ -z "${FLAG_PATH}" ]] || [[ -d "${FLAG_PATH}" ]]
 then
