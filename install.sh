@@ -1,5 +1,16 @@
 #!/bin/bash
-install  -m "0755" -o root -g root firewall.service /etc/systemd/system/firewall.service
-install  -m "0755" -o root -g root fw-lib.sh /usr/lib/fw-lib.sh
-install  -m "0755" -o root -g root fw-load.sh /usr/sbin/fw-load.sh
-install -m "0700" -o root -g root -d /etc/fw_rules.d
+PREFIX=${PREFIX:-}
+INSTDIR=${INSTDIR:-/usr/local}
+echo $PREFIX$INSTDIR
+exit 
+install  -m "0755" -o root -g root firewall.service ${PREFIX}/etc/systemd/system/firewall.service
+install  -m "0755" -o root -g root fw-lib.sh ${PREFIX}${INSTDIR}/bin/fw-lib.sh
+install  -m "0755" -o root -g root fw-load.sh ${PREFIX}${INSTDIR}/sbin/fw-load.sh
+install -m "0700" -o root -g root -d ${PREFIX}/etc/fw_rules.d
+systemctl daemon-reload
+echo $?
+systemctl enable firewall
+echo $?
+systemctl start firewall
+echo $?
+exit 0
