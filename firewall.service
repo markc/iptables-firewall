@@ -2,16 +2,8 @@
 Description=Conesphere Firewall Service
  
 # Start before Network Interfaces coming up
-# 
-# Network Pre Target is not really working with debian
-# Before=network-pre.target
-# Wants=network-pre.target
-Before=network.target
-Wants=network.target
-After=local-fs.target basic.target
- 
-# Do not start after basic.target!
-DefaultDependencies=no
+After=systemd-remount-fs.service local-fs.target basic.target
+Before=network-pre.target network.target network-online.target networking.service
  
 [Service]
 ExecStart=/usr/sbin/fw-load.sh
@@ -23,4 +15,4 @@ Type=oneshot
 RemainAfterExit=yes
 
 [Install]
-WantedBy=network.target
+WantedBy=network.target sysinit.target
