@@ -3,7 +3,7 @@ PREFIX=${PREFIX:-}
 INSTDIR=${INSTDIR:-/usr/local}
 install -d ${PREFIX}${INSTDIR}/share
 install -d ${PREFIX}${INSTDIR}/sbin
-install  -m "0755" -o root -g root firewall.service ${PREFIX}/etc/systemd/system/firewall.service
+install  -m "0644" -o root -g root firewall.service ${PREFIX}/etc/systemd/system/firewall.service
 install  -m "0755" -o root -g root fw-lib.sh ${PREFIX}${INSTDIR}/share/fw-lib.sh
 install  -m "0755" -o root -g root fw-load.sh ${PREFIX}${INSTDIR}/sbin/fw-load.sh
 install -m "0700" -o root -g root -d ${PREFIX}/etc/fw_rules.d
