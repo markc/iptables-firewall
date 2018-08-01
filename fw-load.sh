@@ -11,6 +11,11 @@ case "${1}" in
 			iptables -t "${tbl}" -F 
 			iptables -t "${tbl}" -X 
 		done
+		for tbl in filter nat broute
+		do
+			ebtables -t "${tbl}" -F 
+			ebtables -t "${tbl}" -X 
+		done
 	;;
 	start|reload|*)
 
