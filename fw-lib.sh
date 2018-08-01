@@ -94,6 +94,8 @@ require_ipt() {
 }
 
 check_ebt() {
+	EBTCMD="${1}"
+	shift
 	TBL_PARM="-t"
 	TBL="filter"
 	if [[ "${1}" = "-t" ]]
@@ -123,7 +125,7 @@ check_ebt() {
 		;;
 		*)
 			TEST_COMMAND="-I"
-			INVERT_RET="true"
+			INVERT_RET="false"
 		;;
 	esac
 	if [[ "${TEST_COMMAND}" == "-I" ]]
@@ -131,13 +133,13 @@ check_ebt() {
 		# this is going to be more complex because ebtables does not provide -C checks
 		# basicly it ads a custom chain which then adds the command to recreate what 
 		# it would look like in ebtables. Then it greps for that command
-		ebtables "${TBL_PARM}" "${TBL}" -N GET_EBTABLES_FORMAT
-		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-F" GET_EBTABLES_FORMAT
-		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBTABLES_FORMAT "${@}"
-		GREPSTR=$("${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBTABLES_FORMAT "${@}")
-		ebtables "${TBL_PARM}" "${TBL}" -X GET_EBTABLES_FORMAT
-		GREPSTR="${GREPSTR/GET_EBTABLES_FORMAT/${CHAIN}}"
-		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-L" "${CHAIN}" --Lx | grep -F -x ${GREPSTR} 2> /dev/null > /dev/null
+		"${EBTABLES}" "${TBL_PARM}" "${TBL}" -N GET_EBT_FMT_$$
+		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-F" GET_EBT_FMT_$$
+		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBT_FMT_$$ "${@}"
+		GREPSTR=$("${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBT_FMT_$$ --Lx)
+		"${EBTABLES}" "${TBL_PARM}" "${TBL}" -X GET_EBT_FMT_$$
+		GREPSTR="${GREPSTR/GET_EBT_FMT_$$/${CHAIN}}"
+		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-L" "${CHAIN}" --Lx | grep -F -x "${GREPSTR}" 2> /dev/null > /dev/null
 		RET="$?"
 	else
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "${TEST_COMMAND}" "${CHAIN}" "${@}" 2> /dev/null > /dev/null
@@ -178,11 +180,11 @@ ip6t() {
 }
 
 ebtables() {
-	require_ebt "${@}"
+	require_ebt "${EBTABLES}" "${@}"
 }
 
 ebt() {
-	require_ebt "${IP6TABLES}" "${@}"
+	require_ebt "${EBTABLES}" "${@}"
 }
 
 require() {
