@@ -136,7 +136,7 @@ check_ebt() {
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" -N GET_EBT_FMT_$$
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-F" GET_EBT_FMT_$$
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBT_FMT_$$ "${@}"
-		GREPSTR=$("${EBTABLES}" "${TBL_PARM}" "${TBL}" "-I" GET_EBT_FMT_$$ --Lx)
+		GREPSTR=$("${EBTABLES}" "${TBL_PARM}" "${TBL}" "-L" GET_EBT_FMT_$$ --Lx)
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" -X GET_EBT_FMT_$$
 		GREPSTR="${GREPSTR/GET_EBT_FMT_$$/${CHAIN}}"
 		"${EBTABLES}" "${TBL_PARM}" "${TBL}" "-L" "${CHAIN}" --Lx | grep -F -x "${GREPSTR}" 2> /dev/null > /dev/null
