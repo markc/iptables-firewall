@@ -125,7 +125,7 @@ check_ebt() {
 		;;
 		*)
 			TEST_COMMAND="-I"
-			INVERT_RET="false"
+			INVERT_RET="true"
 		;;
 	esac
 	if [[ "${TEST_COMMAND}" == "-I" ]]
