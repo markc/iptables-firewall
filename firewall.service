@@ -2,7 +2,8 @@
 Description=Conesphere Firewall Service
  
 # Start before Network Interfaces coming up
-After=systemd-remount-fs.service local-fs.target basic.target
+# on debian it is meant to run after basic.target but that breaks centos
+After=systemd-remount-fs.service local-fs.target
 Before=network-pre.target network.target network-online.target networking.service
  
 [Service]

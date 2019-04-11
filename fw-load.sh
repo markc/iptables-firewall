@@ -19,18 +19,25 @@ case "${1}" in
 	;;
 	start|reload|*)
 
-		if [[ -z "${FLAG_PATH}" ]] || [[ -d "${FLAG_PATH}" ]]
-		then
-			umask 077
-			FLAG_PATH=$(/bin/mktemp -d /tmp/firewall_flags.XXXXXXXX)
-			FLAG_PATH_CREATED="true"
-		fi
-		/bin/run-parts "--arg=${FLAG_PATH}" "${FW_CFG_PATH}"
-		if [[ "${FLAG_PATH_CREATED}" = "true" ]]
-		then
-			# we may have to clean up our mess
-			/bin/rm -f "${FLAG_PATH}/"*.run
-			/bin/rmdir "${FLAG_PATH}"
-		fi
+		/bin/run-parts "${FW_CFG_PATH}"
+		# on debian based oses we can use --args to set a fixed 
+		# run path on our tokens. unfortunately centos and redhat have a 
+		# shellscript there missing that particular part
+		# we may provide a better run-parts in the future but for now
+		# this code is commented out
+		#
+		# if [[ -z "${FLAG_PATH}" ]] || [[ -d "${FLAG_PATH}" ]]
+		# then
+		# 	umask 077
+		# 	FLAG_PATH=$(/bin/mktemp -d /tmp/firewall_flags.XXXXXXXX)
+		# 	FLAG_PATH_CREATED="true"
+		# fi
+		# /bin/run-parts "--arg=${FLAG_PATH}" "${FW_CFG_PATH}"
+		# if [[ "${FLAG_PATH_CREATED}" = "true" ]]
+		# then
+		# 	# we may have to clean up our mess
+		# 	/bin/rm -f "${FLAG_PATH}/"*.run
+		# 	/bin/rmdir "${FLAG_PATH}"
+		# fi
 	;;
 esac
