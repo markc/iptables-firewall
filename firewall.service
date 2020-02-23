@@ -16,4 +16,4 @@ Type=oneshot
 RemainAfterExit=yes
 
 [Install]
-WantedBy=network.target sysinit.target
+WantedBy=sysinit.target
